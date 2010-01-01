@@ -4,10 +4,10 @@ PROCESSOR 10F200
 	; HTdly - Width of HasToken pulse
 	; Tdly  - Width of token
 
-	HT	equ	GP0
-	RT	equ	GP1
-	TO	equ	GP2
-	TI	equ	GP3
+HT:	equ	GP0
+RT:	equ	GP1
+TO:	equ	GP2
+TI:	equ	GP3
 
 	; Disable reset pin, code protection and watchdog timer
 	__CONFIG _MCLRE_OFF & _CP_OFF & _WDT_OFF
@@ -20,10 +20,25 @@ PROCESSOR 10F200
 	movlw	b'00001010'	; Set GP0 and GP2 to output
 	tris	GPIO
 
-Loop:	bsf	GPIO, GP2
+Loop:	btfss	GPIO, TI	; Skip next if set
+	goto	Loop
+
+	btfss	GPIO, RT	; Send token along if not requested
+	goto	SendT
+
+	bsf	GPIO, HT
+	call	HTdly
+	bcf	GPIO, HT
+
+WaitRT:	btfsc	GPIO, RT	; Only continue once RT is cleared
+	goto	WaitRT
+
+SendT:	btfsc	GPIO, TI	; Wait for TI to clear before sending token
+	goto	SendT
+	bsf	GPIO, TO
 	call	Tdly
-	bcf	GPIO, GP2
-	call	Tdly
+	bcf	GPIO, TO
+
 	goto Loop
 
 
