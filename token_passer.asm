@@ -4,6 +4,11 @@ PROCESSOR 10F200
 	; HTdly - Width of HasToken pulse
 	; Tdly  - Width of token
 
+	HT	equ	GP0
+	RT	equ	GP1
+	TO	equ	GP2
+	TI	equ	GP3
+
 	; Disable reset pin, code protection and watchdog timer
 	__CONFIG _MCLRE_OFF & _CP_OFF & _WDT_OFF
 
@@ -12,7 +17,7 @@ PROCESSOR 10F200
 	movlw	b'11011111'	; Disable Timer input on GP2 pin
 	option
 	
-	movlw	b'00001011'	; Set GP2 to output
+	movlw	b'00001010'	; Set GP0 and GP2 to output
 	tris	GPIO
 
 Loop:	bsf	GPIO, GP2
