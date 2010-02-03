@@ -25,13 +25,11 @@ Loop:	btfss	GPIO, TI	; Skip next if set
 
 	btfss	GPIO, RT	; Send token along if not requested
 	goto	SendT
-
-	bsf	GPIO, HT
-	call	HTdly
-	bcf	GPIO, HT
+	bsf	GPIO, HT	; Indicate the presence of the token
 
 WaitRT:	btfsc	GPIO, RT	; Only continue once RT is cleared
 	goto	WaitRT
+	bcf	GPIO, HT	; No more token for you
 
 SendT:	btfsc	GPIO, TI	; Wait for TI to clear before sending token
 	goto	SendT
@@ -41,8 +39,6 @@ SendT:	btfsc	GPIO, TI	; Wait for TI to clear before sending token
 
 	goto Loop
 
-
-HTdly:	retlw	0x00		; 1uS delay (2clk for call, 2clk for retlw)
 
 Tdly:	nop			; 5uS delay
 	nop
