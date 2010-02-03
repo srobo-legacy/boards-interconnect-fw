@@ -1,0 +1,15 @@
+The token passing code works something like the following:
+
+while(1) {
+    if(TI) {           // Got the token
+        if(RT) {       // Do we want to use the token
+            HT = 1;
+            while(RT); // Wait until finished using the token
+        }
+        HT = 0;
+        while(TI);     // Wait for the whole of the token to arrive
+        TO = 1;
+        pause(TOKEN_LENGTH);  // Send the token on its way
+        TO = 0;
+    }
+}
