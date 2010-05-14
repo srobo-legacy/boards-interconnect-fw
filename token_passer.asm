@@ -61,4 +61,26 @@ Tdly:	nop			; 5us delay
 	nop
 	retlw	0x00
 
+Pdly:	call	Tdly		; 100us delay
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	call	Tdly
+	retlw	0x00
+
 	end
