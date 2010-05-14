@@ -1,6 +1,7 @@
 The token passing code works something like the following:
 
 TO = HT = 0;
+pause(2);
 while(1) {
     if(TI) {           // Got the token
         if(RT) {       // Do we want to use the token
