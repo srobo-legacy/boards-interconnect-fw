@@ -43,7 +43,7 @@ SendT:	btfsc	GPIO, TI	; Wait for TI to clear before sending token
 	goto Loop
 
 
-Tdly:	nop			; 5uS delay
+Tdly:	nop			; 5us delay
 	nop
 	nop
 	nop
