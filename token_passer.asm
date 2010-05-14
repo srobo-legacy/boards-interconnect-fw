@@ -9,6 +9,9 @@ RT:	equ	GP1
 TO:	equ	GP2
 TI:	equ	GP3
 
+d1var:	equ	0x10
+d2var:	equ	0x11
+
 	; Disable reset pin, code protection and watchdog timer
 	__CONFIG _MCLRE_OFF & _CP_OFF & _WDT_OFF
 
@@ -22,6 +25,17 @@ TI:	equ	GP3
 
 	bcf	GPIO, TO	; Clear TO line, GPIO is undefined after POR
 	bcf	GPIO, HT	; Clear HT line too
+
+	; 2 second delay on reset
+	movlw	d'200'		; 200 * 10ms = 2s
+	movwf	d1var
+d1:	movlw	d'100'		; 100 * 100us = 10ms
+	movwf	d2var
+d2:	call	Pdly
+	decfsz	d2var, 1
+	goto	d2
+	decfsz	d1var, 1
+	goto	d1
 
 Loop:	btfss	GPIO, TI	; Skip next if set
 	goto	Loop
