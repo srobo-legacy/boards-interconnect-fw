@@ -20,6 +20,9 @@ TI:	equ	GP3
 	movlw	b'00001010'	; Set GP0 and GP2 to output
 	tris	GPIO
 
+	bcf	GPIO, TO	; Clear TO line, GPIO is undefined after POR
+	bcf	GPIO, HT	; Clear HT line too
+
 Loop:	btfss	GPIO, TI	; Skip next if set
 	goto	Loop
 
