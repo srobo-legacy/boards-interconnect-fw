@@ -58,21 +58,6 @@ SendT:	btfsc	GPIO, TI	; Wait for TI to clear before sending token
 
 
 Tdly:	nop			; 5us delay
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
-	nop
 	retlw	0x00
 
 Pdly:	call	Tdly		; 100us delay
