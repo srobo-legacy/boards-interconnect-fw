@@ -15,3 +15,25 @@ while(1) {
         TO = 0;
     }
 }
+
+The token generator, for debugging purposes, works like:
+
+GenerateToken  // Input, active low
+RemoveToken    // Input, active low
+pause(2);
+while(1) {
+    if(!GenerateToken) {          // Should generate a new token
+        while(!GenerateToken);    // Only send it when button is released
+        TO = 1;
+		  pause(TOKEN_LENGTH);
+		  TO = 0;
+    }
+    if (TI) {                     // Normal token handling (passing on)
+        while(TI);
+        if (RemoveToken) {        // Don't pass token on if it's to be removed
+            TO = 1;
+            pause(TOKEN_LENGTH);
+            TO = 0;
+        }
+    }
+}
