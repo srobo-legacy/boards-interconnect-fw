@@ -1,14 +1,17 @@
 FW=/opt/ICDfw
 
-all: token_passer.hex
+all: token_passer.hex token_generator.hex
 
-token_passer.hex: token_passer.asm
-	gpasm token_passer.asm
+%.hex: %.asm
+	gpasm $<
 
-.PHONY: clean flash
+.PHONY: clean flash-tp flash-tg
 
-flash: token_passer.hex
+flash-tp: token_passer.hex
 	piklab-prog -p icd2 -d 10F200 -c program token_passer.hex -t usb --firmware-dir ${FW}
 
+flash-tg: token_generator.hex
+	piklab-prog -p icd2 -d 10F200 -c program token_generator.hex -t usb --firmware-dir ${FW}
+
 clean:
-	-rm -f token_passer.{cod,hex,lst}
+	-rm -f token_{passer,generator}.{cod,hex,lst}
