@@ -11,6 +11,7 @@ TI:	equ	GP3
 
 d1var:	equ	0x10
 d2var:	equ	0x11
+d3var:	equ	0x12
 
 	; Disable reset pin, code protection and watchdog timer
 	__CONFIG _MCLRE_OFF & _CP_OFF & _WDT_OFF
@@ -40,6 +41,12 @@ d2:	call	Pdly
 ; GenT pin checking/token generating
 Loop:	btfsc	GPIO, GenT	; Skip next if clear
 	goto	TIif
+
+	movlw	d'100'		; 10ms debouncing delay
+	movwf	d3var
+d3:	call	Pdly
+	decfsz	d3var, 1
+	goto	d3
 
 WaitGT:	btfss	GPIO, GenT	; Wait for GenT to go high before generating
 	goto	WaitGT

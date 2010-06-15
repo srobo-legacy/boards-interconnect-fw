@@ -23,6 +23,7 @@ RemoveToken    // Input, active low
 pause(2);
 while(1) {
     if(!GenerateToken) {          // Should generate a new token
+        pause(10m);               // Debouncing
         while(!GenerateToken);    // Only send it when button is released
         TO = 1;
 		  pause(TOKEN_LENGTH);
