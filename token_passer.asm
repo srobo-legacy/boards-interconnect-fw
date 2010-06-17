@@ -23,7 +23,7 @@ d2var:	equ	0x11
 	movlw	b'00001010'	; Set GP0 and GP2 to output
 	tris	GPIO
 
-	bcf	GPIO, TO	; Clear TO line, GPIO is undefined after POR
+	bsf	GPIO, TO	; Clear TO line, GPIO is undefined after POR
 	bcf	GPIO, HT	; Clear HT line too
 
 	; 2 second delay on reset
@@ -37,7 +37,7 @@ d2:	call	Pdly
 	decfsz	d1var, 1
 	goto	d1
 
-Loop:	btfss	GPIO, TI	; Skip next if set
+Loop:	btfsc	GPIO, TI	; Skip next if set
 	goto	Loop
 
 	btfss	GPIO, RT	; Send token along if not requested
@@ -48,11 +48,11 @@ WaitRT:	btfsc	GPIO, RT	; Only continue once RT is cleared
 	goto	WaitRT
 	bcf	GPIO, HT	; No more token for you
 
-SendT:	btfsc	GPIO, TI	; Wait for TI to clear before sending token
+SendT:	btfss	GPIO, TI	; Wait for TI to clear before sending token
 	goto	SendT
-	bsf	GPIO, TO
-	call	Tdly
 	bcf	GPIO, TO
+	call	Tdly
+	bsf	GPIO, TO
 
 	goto Loop
 
