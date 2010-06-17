@@ -24,7 +24,7 @@ d3var:	equ	0x12
 	movlw	b'00001011'	; Set GP2 to output
 	tris	GPIO
 
-	bcf	GPIO, TO	; Clear TO line, GPIO is undefined after POR
+	bsf	GPIO, TO	; Clear TO line, GPIO is undefined after POR
 
 	; 2 second delay on reset
 	movlw	d'200'		; 200 * 10ms = 2s
@@ -51,24 +51,24 @@ d3:	call	Pdly
 WaitGT:	btfss	GPIO, GenT	; Wait for GenT to go high before generating
 	goto	WaitGT
 
-	bsf	GPIO, TO	; Generate token
+	bcf	GPIO, TO	; Generate token
 	call	Tdly
-	bcf	GPIO, TO
+	bsf	GPIO, TO
 
 
 ; TI checking/token propagating
-TIif:	btfss	GPIO, TI	; Skip next if set
+TIif:	btfsc	GPIO, TI	; Skip next if set
 	goto	Loop
 
-SendT:	btfsc	GPIO, TI	; Wait for TI to clear before sending token
+SendT:	btfss	GPIO, TI	; Wait for TI to clear before sending token
 	goto	SendT
 
 	btfss	GPIO, RemT	; Don't propagate token if it's to be removed
 	goto	Loop
 
-	bsf	GPIO, TO
-	call	Tdly
 	bcf	GPIO, TO
+	call	Tdly
+	bsf	GPIO, TO
 
 	goto Loop
 
