@@ -18,7 +18,7 @@ d3var:	equ	0x12
 
 	org	0x00
 	
-	movlw	b'11011111'	; Disable Timer input on GP2 pin
+	movlw	b'10011111'	; Disable Timer input on GP2 pin
 	option
 	
 	movlw	b'00001011'	; Set GP2 to output
