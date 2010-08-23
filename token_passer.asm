@@ -57,7 +57,9 @@ SendT:	btfss	GPIO, TI	; Wait for TI to clear before sending token
 	goto Loop
 
 
-Tdly:	nop			; 5us delay
+Tdly:	nop			; 7us delay
+	nop
+	nop
 	retlw	0x00
 
 Pdly:	call	Tdly		; 100us delay
